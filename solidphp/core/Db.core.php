@@ -17,5 +17,9 @@
 			}
 			return self::$db;
 		}
+		
+		public static function pre(){
+			return Config::get('DB_PREF');
+		}
 	}
 ?>

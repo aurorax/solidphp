@@ -4,10 +4,12 @@
 	{
 		private static $config = array(
 			'APP' => array(
-				'APP_VERSION' => '0.4a',
+				'APP_VERSION' => '1.0.1',
 				'APP_DEBUG' => true,
-				'APP_MODULE' => '/module',
+				'APP_MODULE' => 'module',
+				'APP_MODULE_DEFAULT' => 'Index',	//默认模块名
 				'APP_MODULE_EMPTY' => 'EmptyMod',	//空模块名
+				'APP_ACTION_DEFAULT' => 'main',	//默认方法名
 				'APP_ACTION_EMPTY' => 'empty_act'	//空方法名
 			),
 			'DB' => array(

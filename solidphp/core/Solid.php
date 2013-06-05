@@ -21,10 +21,12 @@
 			//内存初始使用
 			if(function_exists('memory_get_usage'))
 				$GLOBALS['startRam'] = memory_get_usage();
+				
+			ob_start();
 			
 			try{
 				if(defined('_PATH_')) define('_ROOT_',dirname(_PATH_));
-				if(!defined('_SITE_')) define('_SITE_','http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']));
+				if(!defined('_SITE_')) define('_SITE_',rtrim('http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']),'\\\/'));
 				
 				if(!is_dir('public')) mkdir('public');
 	
@@ -38,23 +40,26 @@
 				foreach($_GET as & $g)
 					$g = str_replace(array('\'','"'),'',$g);
 					
-				if(self::_module_exists($_GET['m']))
+				if(self::_module_exists($_GET['m'])){
 					$module = $_GET['m'];
-				else if(self::_module_exists(self::$config['APP_MODULE_EMPTY']))
+				}else if(self::_module_exists(self::$config['APP_MODULE_EMPTY'])){
 					$module = self::$config['APP_MODULE_EMPTY'];
-				else
+				}else{
 					throw new Exception('module '.$_GET['m'].' not found');
-					
+				}
+				
 				self::__require('/lib/function.lib.php');
 				self::__require('/ext/function.ext.php');
-				
 				//TODO cache?
 				self::_execute($module);
 
 				if(self::$config['APP_DEBUG']){
 					Debug::stop();
 					//TODO Debug::collect()
+					Debug::v('DBLINK',Db::get()->link());
+					Debug::v('_COOKIE',$_COOKIE);
 					Debug::v('_GET',$_GET);
+					Debug::v('_POST',$_POST);
 					Debug::v('require',self::$require);
 					Debug::v('page',$_SERVER['PHP_SELF']);
 					//TODO end
@@ -67,10 +72,12 @@
 				echo $e->getFile().'<br />';
 				echo $e->getLine().'<br />';
 			}
+			
+			ob_end_flush();
 		}
 		
 		private static function _config(){
-			require '/config.php';
+			require './config.php';
 			Config::set($config);
 			self::$config = Config::get('APP');
 			if(self::$config['APP_DEBUG'])
@@ -88,11 +95,11 @@
 				if(method_exists($object,$_GET['a'])){
 					$action = $_GET['a'];
 				}else if(method_exists($object,self::$config['APP_ACTION_EMPTY'])){
-					$a = self::$config['APP_ACTION_EMPTY'];
+					$action = self::$config['APP_ACTION_EMPTY'];
 				}else{
 					throw new Exception('method not exists in class '.$module);
 				}
-				if(strtoupper($module)!=strtoupper($_GET['a']))
+				if(method_exists($object,'__construct') || (strtoupper($module)!=strtoupper($_GET['a'])))
 					$object->$action();
 			}else{
 				throw new Exception('class not exists');
@@ -101,7 +108,7 @@
 		
 		private static function _module_exists($module){
 			if(!is_dir(self::$config['APP_MODULE'])) mkdir(self::$config['APP_MODULE']);
-			$modulePath = self::$config['APP_MODULE'].'/'.$module.'.php';
+			$modulePath = '/'.self::$config['APP_MODULE'].'/'.$module.'.php';
 			if(self::__require($modulePath))
 				return true;
 			else

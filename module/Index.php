@@ -2,7 +2,7 @@
 
 	class Index
 	{
-		public function index(){
-			echo 'hello world!';
+		public function main(){
+			Display::show('index.php');
 		}
 	}

@@ -7,6 +7,7 @@
 	{
 		/* 模板文件夹 */
 		private $tpl;
+		
 		/* 模板引用路径 */
 		private $url;
 		
