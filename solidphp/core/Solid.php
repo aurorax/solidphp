@@ -117,8 +117,8 @@
 		
 		private static function _parse_url(){
 			$pathinfo = explode('/',trim($_SERVER['PATH_INFO'],'/'));
-			$_GET['m'] = empty($pathinfo[0])?'Index':$pathinfo[0];
-			$_GET['a'] = empty($pathinfo[1])?'index':$pathinfo[1];
+			$_GET['m'] = empty($pathinfo[0])?self::$config['APP_MODULE_DEFAULT']:$pathinfo[0];
+			$_GET['a'] = empty($pathinfo[1])?self::$config['APP_ACTION_DEFAULT']:$pathinfo[1];
 			for($i=2;$i<sizeof($pathinfo);$i=$i+2)
 				$_GET[$pathinfo[$i]] = $pathinfo[$i+1];
 		}
