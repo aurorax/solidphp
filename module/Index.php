@@ -1,6 +1,6 @@
 <?php
 
-	class Index extends Module
+	class Index
 	{
 		public function main(){
 			Display::show('/index.php');
