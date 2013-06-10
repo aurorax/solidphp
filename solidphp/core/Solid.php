@@ -25,17 +25,22 @@
 			ob_start();
 			
 			try{
-				if(defined('_PATH_')) define('_ROOT_',dirname(_PATH_));
-				if(!defined('_SITE_')) define('_SITE_',rtrim('http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']),'\\\/'));
-				
-				if(!is_dir('public')) mkdir('public');
-	
-				if(function_exists('spl_autoload_register')){
-					spl_autoload_register(array('Solid','autoload'));
+				if(defined('_PATH_')){
+					define('_ROOT_',dirname(_PATH_));
+				}
+				if(!defined('_SITE_')){
+					define('_SITE_',rtrim('http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']),'\\\/'));
 				}
 				
 				self::_config();
 				
+				if(!is_dir('public')){
+					mkdir('public');
+				}
+				if(!is_dir(self::$config['APP_MODULE'])){
+					mkdir(self::$config['APP_MODULE']);
+				}
+
 				self::_parse_url();
 				
 				foreach($_GET as & $g){
@@ -71,6 +76,9 @@
 		}
 		
 		private static function _config(){
+			if(function_exists('spl_autoload_register')){
+				spl_autoload_register(array('Solid','autoload'));
+			}//TODO else?
 			require './config.php';
 			Config::set($config);
 			self::$config = Config::get('APP');
