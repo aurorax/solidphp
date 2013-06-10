@@ -47,8 +47,9 @@
 		 * 若$sql不空则执行$sql中的语句,否则执行$this->sql中的语句
 		 */
 		public function query($sql=''){
-			if(!empty($sql))
-				$this->sql = $sql;
+			if(!empty($sql)){
+				$this->sql = mysql_real_escape_string($sql);
+			}
 			$this->result = @mysql_query($this->sql,$this->link);
 			return $this->result;
 		}

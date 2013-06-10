@@ -30,15 +30,17 @@
 				
 				if(!is_dir('public')) mkdir('public');
 	
-				if(function_exists('spl_autoload_register'))
+				if(function_exists('spl_autoload_register')){
 					spl_autoload_register(array('Solid','autoload'));
+				}
 				
 				self::_config();
 				
 				self::_parse_url();
 				
-				foreach($_GET as & $g)
+				foreach($_GET as & $g){
 					$g = str_replace(array('\'','"'),'',$g);
+				}
 					
 				if(self::_module_exists($_GET['m'])){
 					$module = $_GET['m'];
@@ -116,11 +118,26 @@
 		}
 		
 		private static function _parse_url(){
-			$pathinfo = explode('/',trim($_SERVER['PATH_INFO'],'/'));
-			$_GET['m'] = empty($pathinfo[0])?self::$config['APP_MODULE_DEFAULT']:$pathinfo[0];
-			$_GET['a'] = empty($pathinfo[1])?self::$config['APP_ACTION_DEFAULT']:$pathinfo[1];
-			for($i=2;$i<sizeof($pathinfo);$i=$i+2)
-				$_GET[$pathinfo[$i]] = $pathinfo[$i+1];
+			$info = '';
+			if(empty($_GET)){
+				if(!empty($_SERVER['PATH_INFO'])){
+					$info = explode('/',trim($_SERVER['PATH_INFO'],'/'));
+				}else{
+					$uri = trim($_SERVER['REQUEST_URI'],'/');
+					$pre = rtrim($_SERVER['PHP_SELF'],'index.php');
+					$uri = ltrim($uri,$pre);
+					$info = explode('/',trim($uri,'/'));
+				}
+			}
+			if(!empty($info)){
+				$_GET['m'] = empty($info[0])?$_GET['m']:$info[0];
+				$_GET['a'] = empty($info[1])?$_GET['a']:$info[1];
+				for($i=3;$i<sizeof($info);$i=$i+2){
+					$_GET[$info[$i-1]] = $info[$i];
+				}
+			}
+			$_GET['m'] = isset($_GET['m'])?$_GET['m']:self::$config['APP_MODULE_DEFAULT'];
+			$_GET['a'] = isset($_GET['a'])?$_GET['a']:self::$config['APP_ACTION_DEFAULT'];
 		}
 		
 		//类自动加载
