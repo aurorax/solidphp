@@ -8,9 +8,9 @@
 				'APP_DEBUG' => true,
 				'APP_MODULE' => 'module',
 				'APP_MODULE_DEFAULT' => 'Index',	//默认模块名
-				'APP_MODULE_EMPTY' => 'EmptyMod',	//空模块名
+				'APP_MODULE_EMPTY' => 'EmptyModule',	//空模块名
 				'APP_ACTION_DEFAULT' => 'main',	//默认方法名
-				'APP_ACTION_EMPTY' => 'empty_act'	//空方法名
+				'APP_ACTION_EMPTY' => 'emptyAct'	//空方法名
 			),
 			'DB' => array(
 				'DB_TYPE' => 'Mysql',		//数据库类型
