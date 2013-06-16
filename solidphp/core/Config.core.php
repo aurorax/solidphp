@@ -4,7 +4,7 @@
 	{
 		private static $config = array(
 			'APP' => array(
-				'APP_VERSION' => '1.0.2',
+				'APP_VERSION' => '1.0.3',
 				'APP_DEBUG' => false,
 				'APP_MODULE' => 'module',
 				'APP_MODULE_DEFAULT' => 'Index',	//默认模块名

@@ -38,15 +38,19 @@
 		
 		public function convert($file){
 			if($this->config['TPL_CONVERT']){
-				$sorce = fopen($this->src.$file,'rb');
-				$target = fopen($this->tpl.$file,'wb');
-				while(!feof($sorce)){
-					$str = fgets($sorce);
-					if(stripos($str,$this->config['TPL_START'])){
-						$str = str_replace($this->config['TPL_START'],'<?php',$str);
-						$str = str_replace($this->config['TPL_END'],'?>',$str);
+				$srcFile = str_replace(array('/','\\'),DIRECTORY_SEPARATOR,$this->src.$file);
+				if(file_exists($srcFile)){
+					$trgFile = str_replace(array('/','\\'),DIRECTORY_SEPARATOR,$this->tpl.$file);
+					$source = fopen($srcFile,'rb');
+					$target = fopen($trgFile,'wb');
+					while(!feof($source)){
+						$str = fgets($source);
+						if(stripos($str,$this->config['TPL_START'])){
+							$str = str_replace($this->config['TPL_START'],'<?php',$str);
+							$str = str_replace($this->config['TPL_END'],'?>',$str);
+						}
+						fwrite($target,$str);
 					}
-					fwrite($target,$str);
 				}
 			}
 		}
