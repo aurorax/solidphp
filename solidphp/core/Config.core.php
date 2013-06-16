@@ -4,8 +4,8 @@
 	{
 		private static $config = array(
 			'APP' => array(
-				'APP_VERSION' => '1.0.1',
-				'APP_DEBUG' => true,
+				'APP_VERSION' => '1.0.2',
+				'APP_DEBUG' => false,
 				'APP_MODULE' => 'module',
 				'APP_MODULE_DEFAULT' => 'Index',	//默认模块名
 				'APP_MODULE_EMPTY' => 'EmptyModule',	//空模块名
@@ -24,14 +24,17 @@
 				'DB_CODE' => 'utf8'		//数据编码
 			),
 			'TPL' => array(
-			
+				'TPL_CONVERT' => false,
+				'TPL_FOLDER' => 'template',
+				'TPL_START' => '<<!',
+				'TPL_END' => '>>'
 			)
 		);
 		
 		public static function get($name=''){
 			if(!empty($name)){
 				$line = strpos($name,'_');
-				if($line!=0){
+				if($line!=false){
 					$pre = substr($name,0,$line);
 					return self::$config[$pre][$name];
 				}else

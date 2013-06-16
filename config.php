@@ -12,4 +12,6 @@ $config['DB_PASS'] = '';	//密码
 $config['DB_NAME'] = 'solidphp';	//数据库名称
 $config['DB_PCON'] = false;			//false:非持续连接 true:持续连接
 $config['DB_CODE'] = 'utf8';		//数据编码
+
+$config['TPL_CONVERT'] = false;		//模板转换开关
 		

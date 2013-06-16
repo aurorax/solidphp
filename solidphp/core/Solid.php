@@ -160,7 +160,7 @@
 			$class_array[] = '/core/Db/'.$class.'.db.php';
 			$class_array[] = '/lib/'.$class.'.lib.php';
 			$class_array[] = '/ext/'.$class.'.ext.php';
-			$class_array[] = self::$config['APP_MODULE'].'/'.$class.'.php';
+			$class_array[] = '/'.self::$config['APP_MODULE'].'/'.$class.'.php';
 			
 			foreach($class_array as $file){
 				if(self::__require($file)){
