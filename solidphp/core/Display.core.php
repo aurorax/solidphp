@@ -1,8 +1,9 @@
 <?php
-	/**
-	 * SOLIDPHP控制类
-	 * @package		core_Display
-	 */
+/* Solidphp模板类
+ * @pachage		core_Display
+ * @author		aurorax
+ * @lastmodify	2013/08/31
+ */
 	class Display
 	{
 		/* 模板文件夹 */

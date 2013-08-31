@@ -1,8 +1,10 @@
 <?php
-	/**
-	 * Mysql数据库类
-	 * @package		core_Db
-	 */
+/* Solidphp Mysql数据库类
+ * @pachage		core_Db
+ * @author		aurorax
+ * @lastmodify	2013/08/31
+ */
+ 
 	class Mysql{
 		
 		private $link;

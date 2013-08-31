@@ -1,6 +1,11 @@
 <?php
-	/* 数据库配置 */
-	/*? 多数据库支持 */
+/* Solidphp数据库配置
+ * @pachage		core_Config
+ * @author		aurorax
+ * @lastmodify	2013/08/31
+ */
+	
+/*? 多数据库? */
 
 $config['APP_DEBUG'] = true;	//框架版本
 	

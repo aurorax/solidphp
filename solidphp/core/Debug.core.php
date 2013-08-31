@@ -1,4 +1,9 @@
 <?php
+/* Solidphp调试类
+ * @pachage		core_Debug
+ * @author		aurorax
+ * @lastmodify	2013/08/31
+ */
 
 	class Debug
 	{
@@ -23,9 +28,18 @@
 			echo 'Ram Using: '.self::$ram.' byte<br />';
 			if(function_exists('memory_get_peak_usage'))
 				echo 'Ram Peak: '.memory_get_peak_usage().' byte<br />';
-			echo '$_GET: <br />';
+			if(!empty(self::$info['DBLINK'])){
+				echo 'Database Link: '.self::$info['DBLINK'].' <br />';
+			}
 			if(!empty(self::$info['_GET'])){
+				echo '$_GET: <br />';
 				foreach(self::$info['_GET'] as $n=>$v){
+					echo '&nbsp;&nbsp;'.$n.' => '.$v.'<br />';
+				}
+			}
+			if(!empty(self::$info['_COOKIE'])){
+				echo '$_COOKIE: <br />';
+				foreach(self::$info['_COOKIE'] as $n=>$v){
 					echo '&nbsp;&nbsp;'.$n.' => '.$v.'<br />';
 				}
 			}

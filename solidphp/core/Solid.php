@@ -1,8 +1,8 @@
 <?php
-/* SolidPHP程序入口类
- * @pachage		SOLIDPHP
+/* Solidphp程序入口
+ * @pachage		Solidphp
  * @author		aurorax
- * @lastmodify	2012/12/31
+ * @lastmodify	2013/08/31
  */
 
 	class Solid

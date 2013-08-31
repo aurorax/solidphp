@@ -1,3 +1,3 @@
 <?php
 
-	//exteion functions
+	//extension functions

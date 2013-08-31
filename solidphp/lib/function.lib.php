@@ -1,8 +1,9 @@
 <?php
-	/**
-	 * SOLIDPHP方法
-	 * @package		function
-	 */
+/* Solidphp通用方法
+ * @pachage		function
+ * @author		aurorax
+ * @lastmodify	2013/08/31
+ */
 	
 	function C($name='',$value=''){
 		Solid::__require(_PATH_.'/core/Config.php');
@@ -24,7 +25,6 @@
 	function e(){
 		$e = func_get_args();
 		echo $e[0];
-	//	echo I18n::translate($e);
 	}
 	
 	
