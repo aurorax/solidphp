@@ -32,13 +32,19 @@
 					define('_SITE_',rtrim('http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']),'\\\/'));
 				}
 				
+				if(!defined('_THIS_')){
+					define('_THIS_',_ROOT_);
+				}
+				
+				self::__require('/core/Config.core.php');
+				
 				self::_config();
 				
-				if(!is_dir('public')){
-					mkdir('public');
+				if(!is_dir(_THIS_.'/public')){
+					mkdir(_THIS_.'/public');
 				}
-				if(!is_dir(self::$config['APP_MODULE'])){
-					mkdir(self::$config['APP_MODULE']);
+				if(!is_dir(_THIS_.'/'.self::$config['APP_MODULE'])){
+					mkdir(_THIS_.'/'.self::$config['APP_MODULE']);
 				}
 
 				self::_parse_url();
@@ -79,7 +85,7 @@
 			if(function_exists('spl_autoload_register')){
 				spl_autoload_register(array('Solid','autoload'));
 			}//TODO else?
-			require './config.php';
+			require _THIS_.'/config.php';
 			Config::set($config);
 			self::$config = Config::get('APP');
 			if(self::$config['APP_DEBUG'])
@@ -99,7 +105,7 @@
 			}else if(self::_module_exists(self::$config['APP_MODULE_EMPTY'])){
 				$module = self::$config['APP_MODULE_EMPTY'];
 			}else{
-				throw new Exception('module '.$_GET['m'].' not found');
+			//	throw new Exception('module '.$_GET['m'].' not found');
 			}
 			if(class_exists($module)){
 				$object = new $module();
@@ -113,16 +119,16 @@
 				if(method_exists($object,'__construct') || (strtoupper($module)!=strtoupper($_GET['a'])))
 					$object->$action();
 			}else{
-				throw new Exception('class not exists');
+				throw new Exception('class \''.$module.'\' not exists');
 			}
 		}
 		
 		private static function _module_exists($module){
-			if(!is_dir(self::$config['APP_MODULE'])){
-				mkdir(self::$config['APP_MODULE']);
+			if(!is_dir(_THIS_.'/'.self::$config['APP_MODULE'])){
+				mkdir(_THIS_.'/'.self::$config['APP_MODULE']);
 			}
-			$modulePath = '/'.self::$config['APP_MODULE'].'/'.$module.'.php';
-			if(self::__require($modulePath))
+			$modulePath = _THIS_.'/'.self::$config['APP_MODULE'].'/'.$module.'.php';
+			if(self::__require($modulePath,true))
 				return true;
 			else
 				return false;
@@ -151,16 +157,21 @@
 			$_GET['a'] = isset($_GET['a'])?$_GET['a']:self::$config['APP_ACTION_DEFAULT'];
 		}
 		
-		//类自动加载
+		//类自动加载 low efficiency?
 		public static function autoload($class){
 			$class_array = array();
+			$abs_array = array();
+			
 			$flag = 0;
-			self::__require('/core/Config.core.php');
+			
 			$class_array[] = '/core/'.$class.'.core.php';
 			$class_array[] = '/core/Db/'.$class.'.db.php';
 			$class_array[] = '/lib/'.$class.'.lib.php';
 			$class_array[] = '/ext/'.$class.'.ext.php';
-			$class_array[] = '/'.self::$config['APP_MODULE'].'/'.$class.'.php';
+			
+			$abs_array[] = _THIS_.'/'.self::$config['APP_MODULE'].'/'.$class.'.php';
+			$abs_array[] = _THIS_.'/lib/'.$class.'.lib.php';
+			$abs_array[] = _THIS_.'/ext/'.$class.'.ext.php';
 			
 			foreach($class_array as $file){
 				if(self::__require($file)){
@@ -169,20 +180,33 @@
 				}
 			}
 			
+			if(!$flag){
+				foreach($abs_array as $file){
+					if(self::__require($file,true)){
+						$flag = 1;
+						break;
+					}
+				}
+			}
+			
 			if(!$flag)
-				throw new Exception('class not found!');
+				throw new Exception('class \''.$class.'\' not found!');
 		}
 		
 		/* 自动包含
 		 * 利用require实现require_once
 		 */
-		public static function __require($class){
-			if(file_exists(_PATH_.$class))
-				$class = _PATH_.$class;
-			else if(file_exists(_ROOT_.$class))
-				$class = _ROOT_.$class;
-			else
-				return false;
+		public static function __require($class,$abs=false){
+			if($abs === false){
+				if(file_exists(_PATH_.$class))
+					$class = _PATH_.$class;
+				else if(file_exists(_ROOT_.$class))
+					$class = _ROOT_.$class;
+				else if(file_exists(_THIS_.$class))
+					$class = _THIS_.$class;
+				else
+					return false;
+			}
 			$class = str_replace(array('/','\\'),DIRECTORY_SEPARATOR,$class);
 			if(!isset(self::$require[$class])){
 				require $class;

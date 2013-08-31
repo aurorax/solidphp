@@ -91,8 +91,9 @@
 		
 		public function select($column,$table,$condition=''){
 			$this->sql = 'SELECT '.$column.' FROM '.$table;
-			if(!empty($condition))
+			if(!empty($condition)){
 				$this->sql .= ' WHERE '.$condition;
+			}
 			return $this->fetch();
 		}
 		

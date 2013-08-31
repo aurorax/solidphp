@@ -26,8 +26,8 @@
 				if(!is_dir($this->config['TPL_FOLDER'])){
 					mkdir($this->config['TPL_FOLDER']);
 				}
-				$this->src = _ROOT_.'/'.$this->config['TPL_FOLDER'];
-				$this->tpl = _ROOT_.'/public';
+				$this->src = _THIS_.'/'.$this->config['TPL_FOLDER'];
+				$this->tpl = _THIS_.'/public';
 				$this->url = _SITE_.'/public';
 		}
 		
