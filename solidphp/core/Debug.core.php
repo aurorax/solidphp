@@ -1,8 +1,8 @@
 <?php
 /* Solidphp调试类
- * @pachage		core_Debug
+ * @package		core_Debug
  * @author		aurorax
- * @lastmodify	2013/08/31
+ * @lastmodify	2013/10/25
  */
 
 	class Debug
@@ -47,6 +47,12 @@
 			if(!empty(self::$info['require'])){
 				foreach(self::$info['require'] as $n=>$v){
 					echo '&nbsp;&nbsp;'.$n.'<br />';
+				}
+			}
+			echo 'vars: <br />';
+			if(!empty(self::$info['var'])){
+				foreach(self::$info['var'] as $n=>$v){
+					echo '&nbsp;&nbsp;'.$n.' => '.$v.'<br />';
 				}
 			}
 		}

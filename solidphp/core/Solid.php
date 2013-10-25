@@ -1,8 +1,9 @@
 <?php
-/* Solidphp程序入口
- * @pachage		Solidphp
+/**
+ * Solidphp程序入口
+ * @package		Solidphp
  * @author		aurorax
- * @lastmodify	2013/08/31
+ * @lastmodify	2013/10/25
  */
 
 	class Solid
@@ -105,8 +106,9 @@
 			}else if(self::_module_exists(self::$config['APP_MODULE_EMPTY'])){
 				$module = self::$config['APP_MODULE_EMPTY'];
 			}else{
-			//	throw new Exception('module '.$_GET['m'].' not found');
+				throw new Exception('module '.$_GET['m'].' not found');
 			}
+			
 			if(class_exists($module)){
 				$object = new $module();
 				if(method_exists($object,$_GET['a'])){
@@ -116,8 +118,9 @@
 				}else{
 					throw new Exception('method not exists in class '.$_GET['m']);
 				}
-				if(method_exists($object,'__construct') || (strtoupper($module)!=strtoupper($_GET['a'])))
+				if(method_exists($object,'__construct') || (strtoupper($module)!=strtoupper($_GET['a']))){
 					$object->$action();
+				}
 			}else{
 				throw new Exception('class \''.$module.'\' not exists');
 			}
@@ -146,6 +149,8 @@
 					$info = explode('/',trim($uri,'/'));
 				}
 			}
+			$_GET['m'] = isset($_GET['m'])?$_GET['m']:self::$config['APP_MODULE_DEFAULT'];
+			$_GET['a'] = isset($_GET['a'])?$_GET['a']:self::$config['APP_ACTION_DEFAULT'];
 			if(!empty($info)){
 				$_GET['m'] = empty($info[0])?$_GET['m']:$info[0];
 				$_GET['a'] = empty($info[1])?$_GET['a']:$info[1];
@@ -153,8 +158,6 @@
 					$_GET[$info[$i-1]] = $info[$i];
 				}
 			}
-			$_GET['m'] = isset($_GET['m'])?$_GET['m']:self::$config['APP_MODULE_DEFAULT'];
-			$_GET['a'] = isset($_GET['a'])?$_GET['a']:self::$config['APP_ACTION_DEFAULT'];
 		}
 		
 		//类自动加载 low efficiency?
@@ -197,17 +200,22 @@
 		 * 利用require实现require_once
 		 */
 		public static function __require($class,$abs=false){
-			if($abs === false){
-				if(file_exists(_PATH_.$class))
-					$class = _PATH_.$class;
-				else if(file_exists(_ROOT_.$class))
-					$class = _ROOT_.$class;
-				else if(file_exists(_THIS_.$class))
-					$class = _THIS_.$class;
-				else
-					return false;
-			}
 			$class = str_replace(array('/','\\'),DIRECTORY_SEPARATOR,$class);
+			if($abs === false){
+				if(file_exists(_PATH_.$class)){
+					$class = _PATH_.$class;
+				}else if(file_exists(_ROOT_.$class)){
+					$class = _ROOT_.$class;
+				}else if(file_exists(_THIS_.$class)){
+					$class = _THIS_.$class;
+				}else{
+					return false;
+				}
+			}else{
+				if(!file_exists($class)){
+					return false;
+				}
+			}
 			if(!isset(self::$require[$class])){
 				require $class;
 				self::$require[$class] = true;

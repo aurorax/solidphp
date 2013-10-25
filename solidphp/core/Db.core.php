@@ -1,10 +1,10 @@
 <?php
 /* Solidphp数据库类
- * @pachage		core_Db
+ * @package		core_Db
  * @author		aurorax
  * @lastmodify	2013/08/31
  */
- 
+ 	//TODO change to pdo
 	class Db
 	{
 		//数据连接对象

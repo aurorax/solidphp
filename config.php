@@ -1,6 +1,6 @@
 <?php
 /* Solidphp数据库配置
- * @pachage		core_Config
+ * @package		core_Config
  * @author		aurorax
  * @lastmodify	2013/08/31
  */

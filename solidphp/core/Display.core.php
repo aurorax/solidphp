@@ -1,6 +1,6 @@
 <?php
 /* Solidphp模板类
- * @pachage		core_Display
+ * @package		core_Display
  * @author		aurorax
  * @lastmodify	2013/08/31
  */
