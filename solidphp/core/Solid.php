@@ -144,7 +144,7 @@
 					$info = explode('/',trim($_SERVER['PATH_INFO'],'/'));
 				}else{
 					$uri = trim($_SERVER['REQUEST_URI'],'/');
-					$pre = rtrim($_SERVER['PHP_SELF'],'index.php');
+					$pre = rtrim($_SERVER['PHP_SELF'],'index.php?');
 					$uri = ltrim($uri,$pre);
 					$info = explode('/',trim($uri,'/'));
 				}
