@@ -2,12 +2,12 @@
 /* Solidphp数据库配置
  * @package		core_Config
  * @author		aurorax
- * @lastmodify	2013/08/31
+ * @lastmodify	2013/12/08
  */
 	
 /*? 多数据库? */
 
-$config['APP_DEBUG'] = true;	//框架版本
+$config['APP_DEBUG'] = true;	//调试开关
 	
 $config['DB_TYPE'] = 'Mysql';		//数据库类型
 $config['DB_PREF'] = 'sp_';			//数据库前缀

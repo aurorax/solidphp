@@ -2,7 +2,7 @@
 /* Solidphp模板类
  * @package		core_Display
  * @author		aurorax
- * @lastmodify	2013/08/31
+ * @lastmodify	2013/12/08
  */
 	class Display
 	{
@@ -59,7 +59,7 @@
 		//模板文件加载方法
 		public function load($file){
 			$this->convert($file);
-			$file = $this->tpl.$file;
+			$file = $this->tpl.'/'.$file;
 			$file = str_replace(array('/','\\'),DIRECTORY_SEPARATOR,$file);
 			if(file_exists($file)){
 				require $file;

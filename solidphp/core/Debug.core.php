@@ -43,16 +43,16 @@
 					echo '&nbsp;&nbsp;'.$n.' => '.$v.'<br />';
 				}
 			}
-			echo 'Requires: <br />';
 			if(!empty(self::$info['require'])){
+				echo 'Requires: <br />';
 				foreach(self::$info['require'] as $n=>$v){
 					echo '&nbsp;&nbsp;'.$n.'<br />';
 				}
 			}
-			echo 'vars: <br />';
 			if(!empty(self::$info['var'])){
+				echo 'vars: <br />';
 				foreach(self::$info['var'] as $n=>$v){
-					echo '&nbsp;&nbsp;'.$n.' => '.$v.'<br />';
+					echo '&nbsp;&nbsp;'.$n.' => '.$v.'l<br />';
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 /* Solidphp通用方法
- * @pachage		function
+ * @package		function
  * @author		aurorax
  * @lastmodify	2013/08/31
  */
