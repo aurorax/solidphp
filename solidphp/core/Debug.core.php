@@ -2,7 +2,7 @@
 /* Solidphp调试类
  * @package		core_Debug
  * @author		aurorax
- * @lastmodify	2013/10/25
+ * @lastmodify	2014/07/21
  */
 
 	class Debug
