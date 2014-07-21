@@ -10,6 +10,7 @@
 		private static $time;
 		private static $ram;
 		private static $info = array();
+		private static $nodebug = array();
 		
 		public static function stop(){
 			//终止运行时间
@@ -20,6 +21,13 @@
 		}
 		
 		public static function show(){
+			$m = $_GET['m'];
+			$a = $_GET['a'];
+			if(isset(self::$nodebug[$m])){
+				if(empty(self::$nodebug[$m]) || self::$nodebug[$m]==$a){
+					return;
+				}
+			}
 			self::calc();
 			echo '<br /><br />';
 			echo 'Current Page: '.self::$info['page'].'<br />';
@@ -55,6 +63,12 @@
 					echo '&nbsp;&nbsp;'.$n.' => '.$v.'l<br />';
 				}
 			}
+		}
+		
+		public static function nodebug(){
+			$m = $_GET['m'];
+			$a = $_GET['a'];
+			self::$nodebug[$m]=$a;
 		}
 		
 		public static function v($name='',$value=''){
