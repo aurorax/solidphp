@@ -1,10 +1,10 @@
 <?php
 
-	define('_PATH_',dirname(__FILE__).'/solidphp');
-	
-	//uncomment the line below if solidphp core is in another folder
-	//define('_THIS_',dirname(__FILE__)); 
-	
-	require _PATH_.'/core/Solid.php';
-	
-	Solid::run();
+define('_CORE_',dirname(__FILE__).'/solidphp');
+
+require  _CORE_.'/Solid.php';
+
+Solid::init(dirname(_CORE_).'/config.php');
+
+#Solid::run('Index','action');
+Solid::run();
