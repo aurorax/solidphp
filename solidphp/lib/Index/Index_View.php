@@ -1,6 +1,6 @@
 <?php
 
-class Index_view
+class Index_View
 {
 	public static function action(){
 		echo "Hello world.";

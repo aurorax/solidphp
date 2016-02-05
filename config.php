@@ -5,7 +5,7 @@ return array(
 	'APP_LIB' => 'lib',	//lib dir name
 	'APP_FUNC' => 'function.php',	//global function filename
 	'APP_INDEX' => 'Index',
-	'APP_ACTION' => 'Action',
+	'APP_ACTION' => 'action',
 	#'APP_AUTOLOAD' => array( 
 	#		'Db'#, 'Display'
 	#),						//needs to be an array
