@@ -28,10 +28,7 @@ class Solid
 			if(!defined('_INIT_') || _INIT_ !== true)
 				self::exception('app must init before run.');
 		
-			if(!empty($index))
-				$GLOBALS['APP_INDEX']=$index;
-			if(!empty($action))
-				$GLOBALS['APP_ACTION']=$action;
+			self::_set_index($index, $action);
 			
 			self::_auto_load();
 		
@@ -123,6 +120,7 @@ class Solid
 	 *     2. Solid::load('/module/path.php') => loads /_LIB_/module/path.php
 	 * No matter how many times the function called, each module will only be loaded once.
 	 * Returns a bool 'true' while loading succeed. Otherwise raising exceptions.
+	 * @param	string	$arg
 	 * @return	boolean
 	 */
 	public static function load($arg){
@@ -158,7 +156,7 @@ class Solid
 	 * @param	integer	$error
 	 * TODO: interface for external class.
 	 */
-	public static function exception($message,$error=0){
+	public static function exception($message, $error=0){
 		switch($error){
 			case 0: $type = 'fatal'; break;
 			case 1: $type = 'config'; break;
@@ -189,6 +187,28 @@ class Solid
 		}
 	}
 	
+	/*
+	 * self::_set_index()
+	 * 
+	 * Set APP_INDEX & APP_ACTION.
+	 * @param	string	$index
+	 * @param	string	$action
+	 */
+	
+	private static function _set_index($index, $action){
+		if(!empty($index)){
+			$GLOBALS['APP_INDEX']=$index;
+		}else if(isset(self::$_config['APP_INDEX'])){
+			$GLOBALS['APP_INDEX']=self::$_config['APP_INDEX'];
+		}
+			
+		if(!empty($action)){
+			$GLOBALS['APP_ACTION']=$action;
+		}else if(isset(self::$_config['APP_ACTION'])){
+			$GLOBALS['APP_ACTION']=self::$_config['APP_ACTION'];
+		}
+	}
+	
 	/**
 	 * self::_parse_url()
 	 * 
@@ -206,12 +226,6 @@ class Solid
 		
 		if(!empty($info)){
 			$GLOBALS['APP_INFO'] = explode('/',trim($info,'/'));
-			if(isset(self::$_config['APP_INDEX'])){
-				$GLOBALS['APP_INDEX']=self::$_config['APP_INDEX'];
-			}
-			if(isset(self::$_config['APP_ACTION'])){
-				$GLOBALS['APP_ACTION']=self::$_config['APP_ACTION'];
-			}
 		}
 		
 		if(!empty($get)){
@@ -229,6 +243,7 @@ class Solid
 				}
 			}
 		}
+		
  	}
 	
 	/**
