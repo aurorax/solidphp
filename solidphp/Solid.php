@@ -125,15 +125,15 @@ class Solid
 	 */
 	public static function load($arg){
 		if(defined('_LIB_')){
-			if(isset(self::$_module[$arg]) && self::$_module[$arg])
+			if(strpos($arg,'/')===false){
+				$module_path = _DS_.$arg._DS_.$arg.'.php';
+			}else{
+				$module_path = str_replace(array('/','\\'),_DS_,$arg);
+			}
+			$path = _LIB_.$module_path;
+			if(isset(self::$_module[$module_path]) && self::$_module[$module_path]){
 				return true;
-			else{
-				if(strpos($arg,'/')===false){
-					$module_path = _DS_.$arg._DS_.$arg.'.php';
-				}else{
-					$module_path = str_replace(array('/','\\'),_DS_,$arg);
-				}
-				$path = _LIB_.$module_path;
+			}else{
 				if(is_file($path)){
 					require $path;
 					self::$_module[$module_path] = true;
@@ -145,7 +145,7 @@ class Solid
 		}else{
 			self::exception('config[\'APP_LIB\'] not set.');
 		}
-	}
+	}	
 	
 	/**
 	 * Solid::exception()
