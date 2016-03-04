@@ -130,10 +130,10 @@ class Solid
 			}else{
 				$module_path = str_replace(array('/','\\'),_DS_,$arg);
 			}
-			$path = _LIB_.$module_path;
 			if(isset(self::$_module[$module_path]) && self::$_module[$module_path]){
 				return true;
 			}else{
+				$path = _LIB_.$module_path;
 				if(is_file($path)){
 					require $path;
 					self::$_module[$module_path] = true;
@@ -145,7 +145,7 @@ class Solid
 		}else{
 			self::exception('config[\'APP_LIB\'] not set.');
 		}
-	}	
+	}
 	
 	/**
 	 * Solid::exception()
